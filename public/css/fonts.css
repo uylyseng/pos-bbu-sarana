@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'Battambang';
+    src: url('/fonts/khmer/Battambang.ttf') format('truetype');
+    font-display: swap;
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'EnglishFont';
+    src: url('/fonts/english-font.ttf') format('truetype');
+    font-display: swap;
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Apply Khmer font */
+.font-kh {
+    font-family: 'Battambang' !important;
+    font-weight: 500 ;
+    font-size: 16px;
+}
+
+/* Apply English font */
+.font-en {
+    font-family:  nunito , sans-serif !important;
+}

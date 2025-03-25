@@ -1,0 +1,55 @@
+/* General Switch Styles */
+.custom_switch {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+/* Switch Label */
+.switch_label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 50px;
+    height: 25px;
+    background: #ccc;
+    border-radius: 50px;
+    position: relative;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Slider Knob */
+.switch_label::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    top: 2.5px;
+    left: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Checked State */
+.custom_switch:checked + .switch_label {
+    background: #4CAF50; /* Green when active */
+}
+
+/* Move Knob When Checked */
+.custom_switch:checked + .switch_label::before {
+    transform: translateX(25px);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .switch_label {
+        background: #444;
+    }
+
+    .custom_switch:checked + .switch_label {
+        background: #2196F3; /* Blue for dark mode */
+    }
+}

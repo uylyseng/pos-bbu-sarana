@@ -1,0 +1,30 @@
+<?php
+return [
+    'title' => 'គេហទំព័រ Laravel 11x ភាសាច្រើន',
+    'welcome' => 'ស្វាគមន៍មកកាន់គេហទំព័ររបស់យើង',
+    'description' => 'គេហទំព័រនេះគាំទ្រភាសាខ្មែរ និងអង់គ្លេស',
+    'Category' => 'ប្រភេទ',
+    'Products' => 'ផលិតផល',
+    'Tables' => 'តុ',
+    'Home' => 'ទំព័រដើម',
+    'About' => 'អំពី',
+    'Contact' => 'ទំនាក់ទំនង',
+    'Login' => 'ចូល',
+    'Register' => 'ចុះឈ្មោះ',
+    'Logout' => 'ចេញ',
+    'Dashboard' => 'ផ្ទាតារ',
+    'You are logged in!' => 'អ្នកបានចូលប្រើប្រាស់!',
+    'E-Mail Address' => 'អាសយដ្ឋាន E-Mail',
+    'Password' => 'ពាក្យសម្ងាត់',
+    'Remember Me' => 'ចងចាំខ្ញុំ',
+    'Forgot Your Password?' => 'ភ្លេចពាក្យសម្ងាត់?',
+    'Group' => 'ក្រុម',
+    'Set Up' => 'កំណត់',
+    'Sousdey Coffee' => 'សូស្តី កាហ្វេ',
+    'settings' => 'ការកំណត់',
+    'Categories List' => 'បញ្ជីប្រភេទ',
+    'Add New'=>'បន្ថែមថ្មី',
+    'Image'=>'រូបភាព',
+];
+
+
