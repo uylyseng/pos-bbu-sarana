@@ -1,0 +1,46 @@
+/* Dongrek Font - Primary Khmer Font */
+@font-face {
+    font-family: 'Dongrek';
+    src: url('../fonts/dongrek.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Dangrek Font - Alternate Khmer Font */
+@font-face {
+    font-family: 'Dangrek';
+    src: url('../fonts/Dangrek/Dangrek-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Battambang Font - Secondary Khmer Font */
+@font-face {
+    font-family: 'Battambang';
+    src: url('../fonts/Battambang/Battambang-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* General Khmer Font Class */
+.khmer-font {
+    font-family: 'Dangrek', 'Battambang', 'Khmer OS', sans-serif;
+}
+
+/* Specific Dongrek Font Class */
+.dongrek-font {
+    font-family: 'Dongrek', sans-serif;
+}
+
+/* Apply Dangrek font to Khmer language elements */
+html[lang="km"] body {
+  font-family: 'Dangrek', 'Battambang', 'Khmer OS', system-ui, sans-serif;
+}
+
+/* Alternative class for specific elements */
+.khmer-dangrek {
+  font-family: 'Dangrek', 'Battambang', 'Khmer OS', system-ui, sans-serif;
+}
