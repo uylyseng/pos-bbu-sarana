@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Role;
-use App\Models\PermissionModel;
+use App\Models\Permission;
 use App\Models\PermissionRole;
 use Auth;
 
@@ -35,7 +35,7 @@ class RoleController extends Controller
             abort(404);
         }
 
-        $getPermission = PermissionModel::getRecord();
+        $getPermission = Permission::getRecord();
         // dd($getPermission);
         $data['getPermission'] = $getPermission;
         return view('roles.add', $data);
@@ -73,7 +73,7 @@ class RoleController extends Controller
 
 
         $data['getRecord'] = Role::getSingle($id);
-        $data['getPermission']   = PermissionModel::getRecord();
+        $data['getPermission']   = Permission::getRecord();
         $data['getRolePermission'] = PermissionRole::getRolePermission($id);
         // dd($data['getRolePermission']);
         return view('roles.edit', $data);

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
-class PermissionModel extends Model
+class Permission extends Model
 {
     use HasFactory;
 
@@ -15,15 +15,15 @@ class PermissionModel extends Model
 
     static public function getSingle($id)
     {
-        return RoleModel::find($id);
+        return Role::find($id);
     }
 
     static public function getRecord()
     {
-        $getPermission = PermissionModel::groupBy('group_by')->get();
+        $getPermission = Permission::groupBy('group_by')->get();
         $result = array();
         foreach ($getPermission as $value) {
-            $getPermissionGroup = PermissionModel::getPermissionGroup($value->group_by);
+            $getPermissionGroup = Permission::getPermissionGroup($value->group_by);
             $data = array();
             $data['id'] = $value->id;
             $data['name'] = $value->name;
@@ -43,6 +43,6 @@ class PermissionModel extends Model
 
     static public function getPermissionGroup($group_by)
     {
-        return PermissionModel::where('group_by',"=", $group_by)->get();
+        return Permission::where('group_by',"=", $group_by)->get();
     }
 }

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Role;
-use App\Models\PermissionModel;
+use App\Models\Permission;
 use App\Models\PermissionRole;
 use Illuminate\Support\Str;
 
@@ -40,7 +40,7 @@ class RoleSeeder extends Seeder
     private function assignPermissionsToRole(int $roleId, string $roleName): void
     {
         // Get all permissions
-        $allPermissions = PermissionModel::all();
+        $allPermissions = Permission::all();
         $permissionIds = [];
 
         // Determine which permissions to assign based on role
