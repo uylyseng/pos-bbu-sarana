@@ -22,26 +22,39 @@
     </script>
 @endif
 
+<style>
+    /* Dongrek font for Khmer text */
+    @font-face {
+        font-family: 'Dongrek';
+        src: url('https://fonts.googleapis.com/css2?family=Dangrek&display=swap');
+    }
+
+    .khmer-font {
+        font-family: 'Dongrek', 'Khmer OS', sans-serif;
+    }
+</style>
 
 <div class="container mx-auto px-4 py-6">
     <!-- Breadcrumb Navigation -->
     <nav aria-label="breadcrumb" class="mb-4 flex justify-start">
-        <ol class="flex text-gray-500 font-semibold dark:text-white">
+        <ol class="flex text-gray-500 font-semibold dark:text-white dongrek-font">
             <li>
-                <a href="{{ route('home') }}" class="hover:text-gray-500/70 dark:hover:text-white-dark/70">Home</a>
+                <a href="{{ route('home') }}" class="hover:text-gray-500/70 dark:hover:text-white-dark/70">
+                    {{ __('sizes.home') }}
+                </a>
             </li>
             <li class="before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
-                <a href="javascript:;" class="text-primary">Sizes</a>
+                <a href="javascript:;" class="text-primary">{{ __('sizes.sizes') }}</a>
             </li>
         </ol>
     </nav>
 
     <!-- Add New Size Button -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-        <h2 class="text-xl font-semibold mb-2 sm:mb-0 dark:text-white">Sizes List</h2>
+        <h2 class="text-xl font-semibold mb-2 sm:mb-0 dark:text-white khmer-font">{{ __('sizes.sizes_list') }}</h2>
         <button class="btn-green flex items-center" onclick="openCreateModal()">
             <i class="fas fa-plus-circle mr-2"></i>
-            <span class="font-semibold">Add New</span>
+            <span class="font-semibold khmer-font">{{ __('sizes.add_new') }}</span>
         </button>
     </div>
 
@@ -50,10 +63,10 @@
         <table class="w-full whitespace-nowrap shadow-sm table-auto">
             <thead class="bg-blue-500 text-white">
                 <tr>
-                    <th class="px-4 py-2">ID</th>
-                    <th class="px-4 py-2">Name</th>
-                    <th class="px-4 py-2">Description</th>
-                    <th class="px-4 py-2 text-center">Actions</th>
+                    <th class="px-4 py-2 khmer-font">{{ __('sizes.id') }}</th>
+                    <th class="px-4 py-2 khmer-font">{{ __('sizes.name') }}</th>
+                    <th class="px-4 py-2 khmer-font">{{ __('sizes.description') }}</th>
+                    <th class="px-4 py-2 text-center khmer-font">{{ __('sizes.actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,12 +75,12 @@
                     <td class="px-4 py-2">{{ $size->id }}</td>
                     <td class="px-4 py-2">{{ $size->name }}</td>
                     <td class="px-4 py-2">{{ $size->descript }}</td>
-                    <td class="px-4 py-2 text-center">
+                    <td class="px-4 py-2 text-center dongrek-font">
                         <button class="text-blue-500 hover:text-blue-700 px-3 py-1 border border-blue-500 rounded mr-2" onclick="openEditModal({{ json_encode($size) }})">
-                            <i class="fa-solid fa-pen-to-square" style="color: blue;"></i> Edit
+                            <i class="fa-solid fa-pen-to-square" style="color: blue;"></i> {{ __('sizes.edit') }}
                         </button>
                         <button class="text-red-500 hover:text-red-700 px-3 py-1 border border-red-500 rounded" onclick="confirmDelete('{{ route('sizes.destroy', $size->id) }}')">
-                            <i class="fa-solid fa-trash" style="color: red;"></i> Delete
+                            <i class="fa-solid fa-trash" style="color: red;"></i> {{ __('sizes.delete') }}
                         </button>
                     </td>
                 </tr>
@@ -77,41 +90,39 @@
     </div>
 
     <!-- Pagination -->
-    
-    @if ( $sizes->total() > 0)
-<div >
-    {{ $sizes->links('layouts.pagination') }}
-</div>
-@else
-    <p>No Size available.</p>
-@endif
-
+    @if ($sizes->total() > 0)
+    <div>
+        {{ $sizes->links('layouts.pagination') }}
+    </div>
+    @else
+    <p class="khmer-font">{{ __('sizes.no_sizes_available') }}</p>
+    @endif
 </div>
 
 <!-- MODAL BACKDROP (Blur Effect) -->
-<div id="modalBackdrop" 
+<div id="modalBackdrop"
   class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden
          flex items-start justify-center transition-opacity duration-300">
     <!-- Create/Edit Size Modal -->
-    <div id="sizeModal"  class="relative mt-10 w-full max-w-md bg-white dark:bg-gray-800
+    <div id="sizeModal" class="relative mt-10 w-full max-w-md bg-white dark:bg-gray-800
            rounded-lg p-6 shadow-lg
            transform transition-all duration-300 ease-out
            opacity-0 -translate-y-12">
-        <h2 id="modalTitle" class="text-lg font-semibold mb-3 dark:text-white">Create New Size</h2>
+        <h2 id="modalTitle" class="text-lg font-semibold mb-3 dark:text-white khmer-font">{{ __('sizes.create_new_size') }}</h2>
         <form id="sizeForm" method="POST">
             @csrf
             <input type="hidden" name="_method" id="formMethod" value="POST">
             <div class="mb-3">
-                <label class="block text-sm font-medium mb-1 dark:text-white">Size Name</label>
+                <label class="block text-sm font-medium mb-1 dark:text-white khmer-font">{{ __('sizes.size_name') }}</label>
                 <input type="text" name="name" id="sizeName" class="form-input w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white" required>
             </div>
             <div class="mb-3">
-                <label class="block text-sm font-medium mb-1 dark:text-white">Description</label>
+                <label class="block text-sm font-medium mb-1 dark:text-white khmer-font">{{ __('sizes.description') }}</label>
                 <textarea name="descript" id="sizeDescription" class="form-input w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white"></textarea>
             </div>
             <div class="flex justify-end space-x-2 mt-4">
-                <button type="button" onclick="closeModal()" class="btn-gray">Cancel</button>
-                <button type="submit" class="btn-green" id="saveButton">Save</button>
+                <button type="button" onclick="closeModal()" class="btn-gray khmer-font">{{ __('sizes.cancel') }}</button>
+                <button type="submit" class="btn-green khmer-font" id="saveButton">{{ __('sizes.save') }}</button>
             </div>
         </form>
     </div>
@@ -122,23 +133,23 @@
     function openCreateModal() {
         document.getElementById('modalBackdrop').classList.remove('hidden');
         document.getElementById('sizeModal').classList.remove('opacity-0', 'translate-y-[-30px]', 'scale-95');
-        document.getElementById('modalTitle').innerText = 'Create New Size';
+        document.getElementById('modalTitle').innerText = "{{ __('sizes.create_new_size') }}";
         document.getElementById('sizeForm').action = "{{ route('sizes.store') }}";
         document.getElementById('formMethod').value = "POST";
         document.getElementById('sizeName').value = '';
         document.getElementById('sizeDescription').value = '';
-        document.getElementById('saveButton').innerText = 'Save';
+        document.getElementById('saveButton').innerText = "{{ __('sizes.save') }}";
     }
 
     function openEditModal(size) {
         document.getElementById('modalBackdrop').classList.remove('hidden');
         document.getElementById('sizeModal').classList.remove('opacity-0', 'translate-y-[-30px]', 'scale-95');
-        document.getElementById('modalTitle').innerText = 'Edit Size';
+        document.getElementById('modalTitle').innerText = "{{ __('sizes.edit_size') }}";
         document.getElementById('sizeForm').action = `/sizes/${size.id}`;
         document.getElementById('formMethod').value = "PUT";
         document.getElementById('sizeName').value = size.name;
         document.getElementById('sizeDescription').value = size.descript;
-        document.getElementById('saveButton').innerText = 'Update';
+        document.getElementById('saveButton').innerText = "{{ __('sizes.update') }}";
     }
 
     function closeModal() {
@@ -149,25 +160,24 @@
     }
 </script>
 
-    
+<style>
     table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+        border-collapse: collapse;
+        width: 100%;
+    }
 
-        th,
-        td {
-            text-align: left;
-            padding: 10px;
-            border: 0px solid #ddd;
-        }
+    th, td {
+        text-align: left;
+        padding: 10px;
+        border: 0px solid #ddd;
+    }
 
-        th {
-    background: #185df2; /* Softer blue gradient */
-    color: white;
-    text-align: justify;
-    font-weight: bold;
-}
+    th {
+        background: #185df2; /* Softer blue gradient */
+        color: white;
+        text-align: justify;
+        font-weight: bold;
+    }
 
     /* Dark mode adjustments */
     body.dark {
@@ -191,7 +201,8 @@
         transition: transform 0.3s ease-in-out;
     }
     #modalBackdrop {
-        background: rgba(0, 0, 0, 0.7); }
+        background: rgba(0, 0, 0, 0.7);
+    }
     /* Button Styles */
     .btn-green { background-color: #0ea5e9;  color: white; padding: 8px 12px; border-radius: 5px; transition: background 0.2s ease-in-out; }
     .btn-green:hover { background-color: darkgreen; }

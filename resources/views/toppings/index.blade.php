@@ -25,22 +25,22 @@
 <div class="container mx-auto px-4 py-6">
     <!-- Breadcrumb Navigation -->
     <nav aria-label="breadcrumb" class="mb-4 flex justify-start">
-        <ol class="flex text-gray-500 font-semibold dark:text-white">
+        <ol class="flex text-gray-500 font-semibold dark:text-white dongrek-font">
             <li>
-                <a href="{{ route('home') }}" class="hover:text-gray-500/70 dark:hover:text-white-dark/70">Home</a>
+                <a href="{{ route('home') }}" class="hover:text-gray-500/70 dark:hover:text-white-dark/70 {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('toppings.home') }}</a>
             </li>
             <li class="before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
-                <a href="javascript:;" class="text-primary">Toppings</a>
+                <a href="javascript:;" class="text-primary {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('toppings.toppings') }}</a>
             </li>
         </ol>
     </nav>
 
     <!-- Add New Topping Button -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-        <h2 class="text-xl font-semibold mb-2 sm:mb-0 dark:text-white">Toppings List</h2>
+        <h2 class="text-xl font-semibold mb-2 sm:mb-0 dark:text-white {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}">{{ __('toppings.toppings_list') }}</h2>
         <button class="btn-green flex items-center" onclick="openCreateModal()">
             <i class="fas fa-plus-circle mr-2"></i>
-            <span class="font-semibold">Add New</span>
+            <span class="font-semibold {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}">{{ __('toppings.add_new') }}</span>
         </button>
     </div>
 
@@ -49,10 +49,10 @@
     <table class="w-full whitespace-nowrap shadow-sm">
             <thead class="bg-gray-100 dark:bg-[#1b2e4b]" style="color: blue;">
                 <tr>
-                    <th class="px-4 py-2">ID</th>
-                    <th class="px-4 py-2">Name</th>
-                    <th class="px-4 py-2">Description</th>
-                    <th class="px-4 py-2 text-center">Actions</th>
+                    <th class="px-4 py-2 {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}">{{ __('toppings.id') }}</th>
+                    <th class="px-4 py-2 {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}">{{ __('toppings.name') }}</th>
+                    <th class="px-4 py-2 {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}">{{ __('toppings.description') }}</th>
+                    <th class="px-4 py-2 text-center {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}">{{ __('toppings.actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -63,10 +63,12 @@
                     <td class="px-4 py-2">{{ $topping->descript }}</td>
                     <td class="px-4 py-2 text-center">
                         <button class="text-blue-500 hover:text-blue-700 px-3 py-1 border border-blue-500 rounded mr-2" onclick="openEditModal({{ json_encode($topping) }})">
-                            <i class="fa-solid fa-pen-to-square" style="color: blue;"></i> Edit
+                            <i class="fa-solid fa-pen-to-square" style="color: blue;"></i>
+                            <span class="{{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}">{{ __('toppings.edit') }}</span>
                         </button>
                         <button class="text-red-500 hover:text-red-700 px-3 py-1 border border-red-500 rounded" onclick="confirmDelete('{{ route('toppings.destroy', $topping->id) }}')">
-                            <i class="fa-solid fa-trash" style="color: red;"></i> Delete
+                            <i class="fa-solid fa-trash" style="color: red;"></i>
+                            <span class="{{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}">{{ __('toppings.delete') }}</span>
                         </button>
                     </td>
                 </tr>
@@ -76,42 +78,38 @@
     </div>
 
     <!-- Pagination -->
-    
-
-    @if ( $toppings->total() > 0)
-<div >
-    {{ $toppings->links('layouts.pagination') }}
-</div>
-@else
-    <p>No Topping available.</p>
-@endif
+    @if ($toppings->total() > 0)
+    <div>
+        {{ $toppings->links('layouts.pagination') }}
+    </div>
+    @else
+        <p class="{{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}">{{ __('toppings.no_toppings_available') }}</p>
+    @endif
 </div>
 
 <!-- MODAL BACKDROP (Blur Effect) -->
-<div id="modalBackdrop"   class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden
-         flex items-start justify-center transition-opacity duration-300"
-   >
+<div id="modalBackdrop" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden
+         flex items-start justify-center transition-opacity duration-300">
     <!-- Create/Edit Topping Modal -->
     <div id="toppingModal" class="relative mt-10 w-full max-w-md bg-white dark:bg-gray-800
            rounded-lg p-6 shadow-lg
            transform transition-all duration-300 ease-out
-           opacity-0 -translate-y-12"
->
-        <h2 id="modalTitle" class="text-lg font-semibold mb-3 dark:text-white">Create New Topping</h2>
+           opacity-0 -translate-y-12">
+        <h2 id="modalTitle" class="text-lg font-semibold mb-3 dark:text-white {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}">{{ __('toppings.create_new_topping') }}</h2>
         <form id="toppingForm" method="POST">
             @csrf
             <input type="hidden" name="_method" id="formMethod" value="POST">
             <div class="mb-3">
-                <label class="block text-sm font-medium mb-1 dark:text-white">Topping Name</label>
+                <label class="block text-sm font-medium mb-1 dark:text-white {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}">{{ __('toppings.topping_name') }}</label>
                 <input type="text" name="name" id="toppingName" class="form-input w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white" required>
             </div>
             <div class="mb-3">
-                <label class="block text-sm font-medium mb-1 dark:text-white">Description</label>
+                <label class="block text-sm font-medium mb-1 dark:text-white {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}">{{ __('toppings.description') }}</label>
                 <textarea name="descript" id="toppingDescription" class="form-input w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white"></textarea>
             </div>
             <div class="flex justify-end space-x-2 mt-4">
-                <button type="button" onclick="closeModal()" class="btn-gray">Cancel</button>
-                <button type="submit" class="btn-green" id="saveButton">Save</button>
+                <button type="button" onclick="closeModal()" class="btn-gray {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}">{{ __('toppings.cancel') }}</button>
+                <button type="submit" class="btn-green {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh dongrek-font' }}" id="saveButton">{{ __('toppings.save') }}</button>
             </div>
         </form>
     </div>
@@ -119,26 +117,36 @@
 
 <!-- JavaScript for Modal Handling -->
 <script>
+    const translations = {
+        create_new_topping: "{{ __('toppings.create_new_topping') }}",
+        edit_topping: "{{ __('toppings.edit_topping') }}",
+        save: "{{ __('toppings.save') }}",
+        update: "{{ __('toppings.update') }}",
+        are_you_sure: "{{ __('toppings.are_you_sure') }}",
+        this_action_cannot_be_undone: "{{ __('toppings.this_action_cannot_be_undone') }}",
+        yes_delete_it: "{{ __('toppings.yes_delete_it') }}"
+    };
+
     function openCreateModal() {
         document.getElementById('modalBackdrop').classList.remove('hidden');
         document.getElementById('toppingModal').classList.remove('opacity-0', 'translate-y-[-30px]', 'scale-95');
-        document.getElementById('modalTitle').innerText = 'Create New Topping';
+        document.getElementById('modalTitle').innerText = translations.create_new_topping;
         document.getElementById('toppingForm').action = "{{ route('toppings.store') }}";
         document.getElementById('formMethod').value = "POST";
         document.getElementById('toppingName').value = '';
         document.getElementById('toppingDescription').value = '';
-        document.getElementById('saveButton').innerText = 'Save';
+        document.getElementById('saveButton').innerText = translations.save;
     }
 
     function openEditModal(topping) {
         document.getElementById('modalBackdrop').classList.remove('hidden');
         document.getElementById('toppingModal').classList.remove('opacity-0', 'translate-y-[-30px]', 'scale-95');
-        document.getElementById('modalTitle').innerText = 'Edit Topping';
+        document.getElementById('modalTitle').innerText = translations.edit_topping;
         document.getElementById('toppingForm').action = `/toppings/${topping.id}`;
         document.getElementById('formMethod').value = "PUT";
         document.getElementById('toppingName').value = topping.name;
         document.getElementById('toppingDescription').value = topping.descript;
-        document.getElementById('saveButton').innerText = 'Update';
+        document.getElementById('saveButton').innerText = translations.update;
     }
 
     function closeModal() {
@@ -150,13 +158,13 @@
 
     function confirmDelete(deleteUrl) {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "This action cannot be undone!",
+            title: translations.are_you_sure,
+            text: translations.this_action_cannot_be_undone,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: translations.yes_delete_it
         }).then((result) => {
             if (result.isConfirmed) {
                 let form = document.createElement('form');

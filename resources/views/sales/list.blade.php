@@ -3,25 +3,25 @@
 @section('content')
 <div class="container mx-auto px-6 py-8">
 <nav aria-label="breadcrumb" class="mb-4 flex justify-start">
-        <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
+        <ol class="flex text-gray-500 font-semibold dark:text-white-dark dongrek-font">
             <li>
-                <a href="javascript:;" class="hover:text-gray-500/70 dark:hover:text-white-dark/70">Home</a>
+                <a href="javascript:;" class="hover:text-gray-500/70 dark:hover:text-white-dark/70">{{ __('sales.home') }}</a>
             </li>
-            <li class="before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
-                <a href="javascript:;" class="text-primary">Sales List</a>
+            <li class="before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4 ">
+                <a href="javascript:;" class="text-primary">{{ __('sales.sales_list') }}</a>
             </li>
         </ol>
     </nav>
-    <h2 class="text-xl font-bold mb-4">Sales List</h2>
+    <h2 class="text-xl font-bold mb-4 dongrek-font">{{ __('sales.sales_list') }}</h2>
 
     <!-- Search & Per-Page Form -->
     <div class="mb-4 flex flex-col sm:flex-row justify-between items-center gap-4">
         <!-- Search Form -->
-        <form method="GET" class="flex items-center gap-4">
-            <input type="text" name="search" placeholder="Search table, status, etc..."
+        <form method="GET" class="flex items-center gap-4 dongrek-font">
+            <input type="text" name="search" placeholder="{{ __('sales.search_placeholder') }}"
                    value="{{ request('search') }}"
                    class="input w-64">
-           
+
         </form>
     </div>
 
@@ -29,22 +29,22 @@
     <div class="overflow-x-auto bg-white rounded shadow">
         <table class="min-w-full text-sm text-left">
             <thead class="bg-gray-100 font-bold">
-                <tr>
-                    <th class="px-4 py-2">Date</th>
-                    <th class="px-4 py-2">Table</th>
-                    <th class="px-4 py-2">Status</th>
-                    <th class="px-4 py-2">Discount</th>
-                    <th class="px-4 py-2">Total</th>
-                    <th class="px-4 py-2">P-Status</th>
-                    <th class="px-4 py-2">Paid</th>
-                    <th class="px-4 py-2">Change</th>
+                <tr class=" dongrek-font">
+                    <th class="px-4 py-3">{{ __('sales.date') }}</th>
+                    <th class="px-4 py-2">{{ __('sales.table') }}</th>
+                    <th class="px-4 py-2">{{ __('sales.status') }}</th>
+                    <th class="px-4 py-2">{{ __('sales.discount') }}</th>
+                    <th class="px-4 py-2">{{ __('sales.total') }}</th>
+                    <th class="px-4 py-2">{{ __('sales.payment_status') }}</th>
+                    <th class="px-4 py-2">{{ __('sales.paid') }}</th>
+                    <th class="px-4 py-2">{{ __('sales.change') }}</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($sales as $sale)
                 <tr class="border-b">
                     <td class="px-4 py-2">{{ $sale->sale_date }}</td>
-                    <td class="px-4 py-2">{{ $sale->table_name ?? 'N/A' }}</td>
+                    <td class="px-4 py-2">{{ $sale->table_name ?? __('sales.na') }}</td>
                     <td class="px-6 py-3 text-sm">
                                 @php
                                     $orderStatus = strtolower($sale->order_status ?? 'N/A');
@@ -55,7 +55,7 @@
                                     };
                                 @endphp
                                 <span class="status-badge {{ $orderClass }}">
-                                    {{ ucfirst($sale->order_status ?? 'N/A') }}
+                                    {{ ucfirst($sale->order_status ?? __('sales.na')) }}
                                 </span>
                             </td>
                     <td class="px-4 py-2">${{ number_format($sale->discount, 2) }}</td>
@@ -70,14 +70,14 @@
                                     };
                                 @endphp
                                 <span class="status-badge {{ $paymentClass }}">
-                                    {{ ucfirst($sale->payment_status ?? 'N/A') }}
+                                    {{ ucfirst($sale->payment_status ?? __('sales.na')) }}
                                 </span>
                             </td>
                     <td class="px-4 py-2">${{ number_format($sale->paid, 2) }}</td>
                     <td class="px-4 py-2">${{ number_format($sale->change_usd, 2) }}</td>
                 </tr>
                 @empty
-                <tr><td colspan="8" class="px-4 py-3 text-center">No sales found.</td></tr>
+                <tr><td colspan="8" class="px-4 py-3 text-center">{{ __('sales.no_sales_found') }}</td></tr>
                 @endforelse
             </tbody>
         </table>
@@ -115,7 +115,7 @@
                 @endif
             </div>
         @else
-            <p class="text-center text-gray-600 dark:text-gray-300">No sales available.</p>
+            <p class="text-center text-gray-600 dark:text-gray-300">{{ __('sales.no_sales_available') }}</p>
         @endif
     </div>
 </div>
@@ -255,5 +255,16 @@
 .status-unknown {
     background-color: #e5e7eb; /* gray-100 */
     color: #4b5563;            /* gray-600 */
+
 }
+
+    @import url('https://fonts.googleapis.com/css2?family=Dangrek&display=swap');
+    .dongrek-font {
+        font-family: 'Dangrek', 'Arial', sans-serif;
+        letter-spacing: 0.01em;
+        font-feature-settings: "kern" 1;
+        text-rendering: optimizeLegibility;
+        font-weight: 500;
+    }
+
 </style>

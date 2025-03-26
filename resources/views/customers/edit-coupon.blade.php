@@ -1,15 +1,15 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="container mx-auto px-4 py-6">
+<div class="container mx-auto px-4 py-6 {{ app()->getLocale() == 'km' ? 'khmer-dangrek' : '' }}">
     <!-- Breadcrumb Navigation -->
     <nav aria-label="breadcrumb" class="mb-4 flex justify-start">
         <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
             <li>
-                <a href="javascript:;" class="hover:text-gray-500/70 dark:hover:text-white-dark/70">Home</a>
+                <a href="javascript:;" class="hover:text-gray-500/70 dark:hover:text-white-dark/70">{{ __('customers.home') }}</a>
             </li>
             <li class="before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
-                <a href="javascript:;" class="text-primary">Assign Coupon</a>
+                <a href="javascript:;" class="text-primary">{{ __('customers.assign_coupon') }}</a>
             </li>
         </ol>
     </nav>
@@ -36,28 +36,28 @@
     <!-- Outer Card -->
     <div class="bg-white dark:bg-gray-800 shadow-md rounded-md p-6">
         <h1 class="text-xl font-bold mb-4 dark:text-white">
-            Assign Coupon to {{ $customer->name }}
+            {{ __('customers.assign_coupon_to') }} {{ $customer->name }}
         </h1>
 
-       
+
 
         <!-- Form to assign a single coupon -->
-        <form 
-            action="{{ route('customers.assignCoupon', $customer->id) }}" 
-            method="POST" 
+        <form
+            action="{{ route('customers.assignCoupon', $customer->id) }}"
+            method="POST"
             class="space-y-3"
         >
             @csrf
             <div>
                 <label for="coupon_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-200">
-                    Select a Coupon:
+                    {{ __('customers.select_coupon') }}
                 </label>
-                <select 
-                    name="coupon_id" 
-                    id="coupon_id" 
+                <select
+                    name="coupon_id"
+                    id="coupon_id"
                     class="border border-gray-300 dark:border-gray-600 p-2 w-full rounded dark:bg-gray-700 dark:text-white"
                 >
-                    <option value="">-- Choose Coupon --</option>
+                    <option value="">{{ __('customers.choose_coupon') }}</option>
                     @foreach($allCoupons as $coupon)
                         <option value="{{ $coupon->id }}">
                             {{ $coupon->code }} ({{ $coupon->discount }}%)
@@ -68,42 +68,42 @@
 
             <div class="flex items-center space-x-3 mt-4">
                 <!-- Assign Button -->
-                <button type="submit" class="assign-btn">Assign</button>
+                <button type="submit" class="assign-btn">{{ __('customers.assign') }}</button>
 
                 <!-- Back Link -->
-                <a href="{{ route('customers.index') }}" class="back-btn">Back</a>
+                <a href="{{ route('customers.index') }}" class="back-btn">{{ __('customers.back') }}</a>
             </div>
         </form>
 
         <hr class="my-6 border-gray-300 dark:border-gray-600">
 
         <!-- List Already Assigned Coupons -->
-        <h2 class="text-lg font-semibold mb-2 dark:text-white">Assigned Coupons</h2>
+        <h2 class="text-lg font-semibold mb-2 dark:text-white">{{ __('customers.assigned_coupons') }}</h2>
         @if($customer->coupons->count() > 0)
             <ul class="space-y-3">
                 @foreach($customer->coupons as $c)
                     <li class="flex items-center justify-between dark:text-gray-100 border p-3 rounded">
                         <div>
                             <strong>{{ $c->code }}</strong>
-                            <span class="ml-2">(Discount: {{ $c->discount }}%)</span>
+                            <span class="ml-2">({{ __('customers.discount') }}: {{ $c->discount }}%)</span>
                         </div>
                         <div class="flex space-x-3">
                             <!-- Edit link -->
                             <a href="{{ route('customers.editCoupon', [$customer->id, $c->id]) }}" class="text-blue-500 hover:underline">
-                                Edit
+                                {{ __('customers.edit') }}
                             </a>
                             <!-- Remove form -->
-                            <form action="{{ route('customers.removeCoupon', [$customer->id, $c->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to remove this coupon?');">
+                            <form action="{{ route('customers.removeCoupon', [$customer->id, $c->id]) }}" method="POST" onsubmit="return confirm('{{ __('customers.confirm_remove_coupon') }}');">
                                 @csrf
                                 @method('DELETE')
-                                <button class="text-red-600 hover:underline">Remove</button>
+                                <button class="text-red-600 hover:underline">{{ __('customers.remove') }}</button>
                             </form>
                         </div>
                     </li>
                 @endforeach
             </ul>
         @else
-            <p class="text-gray-500 dark:text-gray-300">No coupons assigned yet.</p>
+            <p class="text-gray-500 dark:text-gray-300">{{ __('customers.no_coupons_assigned') }}</p>
         @endif
     </div>
 </div>
@@ -119,7 +119,7 @@
 /* Style the anchor links */
 .action-link {
   color: #3b82f6;        /* Tailwind's 'blue-500' */
-  text-decoration: none; 
+  text-decoration: none;
   transition: color 0.2s ease-in-out;
 }
 .action-link:hover {
@@ -129,8 +129,8 @@
 
 /* Style the button in the form */
 .action-button {
-  background: none; 
-  border: none;   
+  background: none;
+  border: none;
   padding: 0;
   color: #ef4444;        /* Tailwind's 'red-500' */
   cursor: pointer;

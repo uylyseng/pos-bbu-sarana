@@ -1,25 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-6">
+<div class="container mx-auto px-4 py-6 {{ app()->getLocale() == 'km' ? 'khmer-dangrek' : '' }}">
     <!-- Breadcrumb Navigation -->
     <nav aria-label="breadcrumb" class="mb-4 flex justify-start">
         <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
             <li>
-                <a href="javascript:;" class="hover:text-gray-500/70 dark:hover:text-white-dark/70">Home</a>
+                <a href="javascript:;" class="hover:text-gray-500/70 dark:hover:text-white-dark/70">{{ __('customers.home') }}</a>
             </li>
             <li class="before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
-                <a href="javascript:;" class="text-primary">Customers</a>
+                <a href="javascript:;" class="text-primary">{{ __('customers.customers') }}</a>
             </li>
         </ol>
     </nav>
 
     <!-- Add New Customer Button -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-        <h2 class="text-xl font-semibold mb-2 sm:mb-0 dark:text-white">Customers List</h2>
+        <h2 class="text-xl font-semibold mb-2 sm:mb-0 dark:text-white">{{ __('customers.customers_list') }}</h2>
         <button class="btn-green flex items-center" onclick="openCreateModal()">
             <i class="fas fa-plus-circle mr-2"></i>
-            <span class="font-semibold">Add New</span>
+            <span class="font-semibold">{{ __('customers.add_new') }}</span>
         </button>
     </div>
 
@@ -28,12 +28,12 @@
         <table class="w-full whitespace-nowrap shadow-sm table-auto">
             <thead class="bg-blue-500 text-white">
                 <tr>
-                    <th class="px-4 py-2 dark:text-white">ID</th>
-                    <th class="px-4 py-2 dark:text-white">Name</th>
-                    <th class="px-4 py-2 dark:text-white">Contact Info</th>
+                    <th class="px-4 py-2 dark:text-white">{{ __('customers.id') }}</th>
+                    <th class="px-4 py-2 dark:text-white">{{ __('customers.name') }}</th>
+                    <th class="px-4 py-2 dark:text-white">{{ __('customers.contact_info') }}</th>
                     <!-- Column for Assigned Coupons -->
-                    <th class="px-4 py-2 dark:text-white">Coupons</th>
-                    <th class="px-4 py-2 dark:text-white">Actions</th>
+                    <th class="px-4 py-2 dark:text-white">{{ __('customers.coupons') }}</th>
+                    <th class="px-4 py-2 dark:text-white">{{ __('customers.actions') }}</th>
                 </tr>
             </thead>
             <tbody class="bg-white dark:bg-gray-800">
@@ -47,29 +47,29 @@
                         @if($customer->coupons->count() > 0)
                             {{ $customer->coupons->pluck('code')->join(', ') }}
                         @else
-                            <span class="text-gray-500 dark:text-gray-400">No coupons</span>
+                            <span class="text-gray-500 dark:text-gray-400">{{ __('customers.no_coupons') }}</span>
                         @endif
                     </td>
                     <td class="px-4 py-2 text-center">
                         <!-- Manage Coupons Button -->
-                        <button 
-                            type="button" 
-                            onclick="window.location.href='{{ route('customers.chooseCoupon', $customer->id) }}'" 
+                        <button
+                            type="button"
+                            onclick="window.location.href='{{ route('customers.chooseCoupon', $customer->id) }}'"
                             class="inline-flex items-center px-3 py-1 border border-green-500 text-green-500 rounded hover:text-green-700 hover:border-green-700"
                         >
-                            <i class="fa-solid fa-cog mr-1" style="color: green;"></i> Manage Coupons
+                            <i class="fa-solid fa-cog mr-1" style="color: green;"></i> {{ __('customers.manage') }}
                         </button>
 
                         <!-- Edit Customer Button -->
-                        <button class="text-blue-500 hover:text-blue-700 px-3 py-1 border border-blue-500 rounded mr-2" 
+                        <button class="text-blue-500 hover:text-blue-700 px-3 py-1 border border-blue-500 rounded mr-2"
                                 onclick="openEditModal({{ json_encode($customer) }})">
-                            <i class="fa-solid fa-pen-to-square" style="color: blue;"></i> Edit
+                            <i class="fa-solid fa-pen-to-square" style="color: blue;"></i> {{ __('customers.edit') }}
                         </button>
 
                         <!-- Delete Customer Button -->
-                        <button class="text-red-500 hover:text-red-700 px-3 py-1 border border-red-500 rounded" 
+                        <button class="text-red-500 hover:text-red-700 px-3 py-1 border border-red-500 rounded"
                                 onclick="confirmDelete('{{ route('customers.destroy', $customer->id) }}')">
-                            <i class="fa-solid fa-trash" style="color: red;"></i> Delete
+                            <i class="fa-solid fa-trash" style="color: red;"></i> {{ __('customers.delete') }}
                         </button>
                     </td>
                 </tr>
@@ -80,13 +80,13 @@
 
     <!-- Pagination -->
     <div >
-     
+
     @if ($customers->total() > 0)
 <div >
     {{ $customers->links('layouts.pagination') }}
 </div>
 @else
-    <p>No customers available.</p>
+    <p>{{ __('customers.no_customers') }}</p>
 @endif
 </div>
 
@@ -99,21 +99,21 @@ flex items-start justify-center transition-opacity duration-300">
            transform transition-all duration-300 ease-out
            opacity-0 -translate-y-12"
 >
-        <h2 id="modalTitle" class="text-lg font-semibold mb-3 dark:text-white">Create New Customer</h2>
+        <h2 id="modalTitle" class="text-lg font-semibold mb-3 dark:text-white">{{ __('customers.create_new_customer') }}</h2>
         <form id="customerForm" method="POST">
             @csrf
             <input type="hidden" name="_method" id="formMethod" value="POST">
             <div class="mb-3">
-                <label class="block text-sm font-medium mb-1 dark:text-white">Customer Name</label>
+                <label class="block text-sm font-medium mb-1 dark:text-white">{{ __('customers.customer_name') }}</label>
                 <input type="text" name="name" id="customerName" class="form-input w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white" required>
             </div>
             <div class="mb-3">
-                <label class="block text-sm font-medium mb-1 dark:text-white">Contact Info</label>
+                <label class="block text-sm font-medium mb-1 dark:text-white">{{ __('customers.contact_info') }}</label>
                 <textarea name="contact_info" id="customerContactInfo" class="form-input w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white"></textarea>
             </div>
             <div class="flex justify-end space-x-2 mt-4">
-                <button type="button" onclick="closeModal()" class="btn-gray">Cancel</button>
-                <button type="submit" class="btn-green">Save</button>
+                <button type="button" onclick="closeModal()" class="btn-gray">{{ __('customers.cancel') }}</button>
+                <button type="submit" class="btn-green">{{ __('customers.save') }}</button>
             </div>
         </form>
     </div>
@@ -124,7 +124,7 @@ flex items-start justify-center transition-opacity duration-300">
     function openCreateModal() {
         document.getElementById('modalBackdrop').classList.remove('hidden');
         document.getElementById('customerModal').classList.remove('opacity-0', 'translate-y-[-30px]', 'scale-95');
-        document.getElementById('modalTitle').innerText = 'Create New Customer';
+        document.getElementById('modalTitle').innerText = "{{ __('customers.create_new_customer') }}";
         document.getElementById('customerForm').action = "{{ route('customers.store') }}";
         document.getElementById('formMethod').value = "POST";
         document.getElementById('customerName').value = '';
@@ -134,7 +134,7 @@ flex items-start justify-center transition-opacity duration-300">
     function openEditModal(customer) {
         document.getElementById('modalBackdrop').classList.remove('hidden');
         document.getElementById('customerModal').classList.remove('opacity-0', 'translate-y-[-30px]', 'scale-95');
-        document.getElementById('modalTitle').innerText = 'Edit Customer';
+        document.getElementById('modalTitle').innerText = "{{ __('customers.edit_customer') }}";
         document.getElementById('customerForm').action = `/customers/${customer.id}`;
         document.getElementById('formMethod').value = "PUT";
         document.getElementById('customerName').value = customer.name;
@@ -150,13 +150,14 @@ flex items-start justify-center transition-opacity duration-300">
 
     function confirmDelete(deleteUrl) {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "This action cannot be undone!",
+            title: "{{ __('customers.are_you_sure') }}",
+            text: "{{ __('customers.this_action_cannot_be_undone') }}",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: "{{ __('customers.yes_delete_it') }}",
+            cancelButtonText: "{{ __('customers.cancel') }}"
         }).then((result) => {
             if (result.isConfirmed) {
                 let form = document.createElement('form');
