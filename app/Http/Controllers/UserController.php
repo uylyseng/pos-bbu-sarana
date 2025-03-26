@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\RoleModel; // Assuming this is the correct model
+use App\Models\Role; // Assuming this is the correct model
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $data['getRole'] = RoleModel::all();
+        $data['getRole'] = Role::all();
         return view('users.add', $data);
     }
 
@@ -56,7 +56,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $data['getRecord'] = User::find($id);
-        $data['getRole'] = RoleModel::all();
+        $data['getRole'] = Role::all();
 
         if (!$data['getRecord']) {
             return redirect()->route('users.index')->with('error', 'User not found.');

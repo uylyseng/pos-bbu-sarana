@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\RoleModel;
+use App\Models\Role;
 use App\Models\PermissionModel;
 use App\Models\PermissionRole;
 use Auth;
@@ -23,7 +23,7 @@ class RoleController extends Controller
         $data['PermissionEdit'] = PermissionRole::getPermission('edit-role', Auth::user()->roles_id);
         $data['PermissionDelete'] = PermissionRole::getPermission('delete-role', Auth::user()->roles_id);
 
-        $data['getRecord'] = RoleModel::getRecord();
+        $data['getRecord'] = Role::getRecord();
         return view('roles.list', $data);
     }
 
@@ -55,7 +55,7 @@ class RoleController extends Controller
         ]);
 
         // dd($request->all());
-        $save = new RoleModel();
+        $save = new Role();
         $save->name = $request->name;
         $save->save();
 
@@ -72,7 +72,7 @@ class RoleController extends Controller
         }
 
 
-        $data['getRecord'] = RoleModel::getSingle($id);
+        $data['getRecord'] = Role::getSingle($id);
         $data['getPermission']   = PermissionModel::getRecord();
         $data['getRolePermission'] = PermissionRole::getRolePermission($id);
         // dd($data['getRolePermission']);
@@ -91,7 +91,7 @@ class RoleController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        $save = RoleModel::getSingle($id);
+        $save = Role::getSingle($id);
         $save->name = $request->name;
         $save->save();
 
@@ -107,7 +107,7 @@ class RoleController extends Controller
             abort(404);
         }
 
-        $delete = RoleModel::getSingle($id);
+        $delete = Role::getSingle($id);
         $delete->delete();
         return redirect('roles')->with('success', 'Role deleted successfully.');
     }

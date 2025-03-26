@@ -4,8 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-class RoleModel extends Model
+class Role extends Model
 {
     use HasFactory;
 
@@ -22,11 +21,11 @@ class RoleModel extends Model
 
     public static function getSingle($id)
     {
-        return RoleModel::find($id);
+        return Role::find($id);
     }
 
     public static function getRecord()
     {
-        return RoleModel::withCount('permissions')->get();
+        return Role::withCount('permissions')->get();
     }
 }
