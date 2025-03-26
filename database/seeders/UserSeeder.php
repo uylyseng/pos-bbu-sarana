@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\RoleModel;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         // Create or get roles
         $roles = [];
         foreach ($roleNames as $roleName) {
-            $roles[$roleName] = RoleModel::firstOrCreate(['name' => $roleName]);
+            $roles[$roleName] = Role::firstOrCreate(['name' => $roleName]);
             $this->command->info("Role found or created: {$roleName}");
         }
 
