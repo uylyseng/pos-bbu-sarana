@@ -8,17 +8,17 @@
         </div>
     @endif
     <nav aria-label="breadcrumb" class="mb-4 flex justify-start">
-        <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
+        <ol class="flex text-gray-500 font-semibold dark:text-white-dark dongrek-font">
             <li>
-                <a href="javascript:;" class="hover:text-gray-500/70 dark:hover:text-white-dark/70">Home</a>
+                <a href="javascript:;" class="hover:text-gray-500/70 dark:hover:text-white-dark/70 {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.Home') }}</a>
             </li>
             <li class="before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
-                <a href="javascript:;" class="text-primary">Edit Purchases</a>
+                <a href="javascript:;" class="text-primary {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.edit_purchase') }}</a>
             </li>
         </ol>
     </nav>
 
-    <h2 class="text-2xl font-semibold mb-4 dark:text-white">Edit Purchase</h2>
+    <h2 class="text-2xl font-semibold mb-4 dark:text-white dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.edit_purchase') }}</h2>
 
     <form action="{{ route('purchases.update', $purchase->id) }}" method="POST">
         @csrf
@@ -26,11 +26,11 @@
 
         <!-- Purchase Details Container -->
         <div class="bg-white rounded shadow p-6 dark:bg-[#1b2e4b] mb-6">
-            <h3 class="text-xl font-semibold mb-4 dark:text-white">Purchase Details</h3>
+            <h3 class="text-xl font-semibold mb-4 dark:text-white dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.purchase_details') }}</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Date -->
                 <div>
-                    <label class="block text-sm font-semibold">Date *</label>
+                    <label class="block text-sm font-semibold dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.date') }} *</label>
                     <input type="date"
                            name="purchase_date"
                            id="purchase_date"
@@ -40,17 +40,17 @@
                 </div>
                 <!-- Reference -->
                 <div>
-                    <label class="block text-sm font-semibold">Reference *</label>
+                    <label class="block text-sm font-semibold dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.reference') }} *</label>
                     <input type="text"
                            name="reference"
                            id="reference"
                            class="form-input mt-1 block w-full"
-                           placeholder="Auto-generate if left blank"
+                           placeholder="{{ __('text.auto_generate') }}"
                            value="{{ old('reference', $purchase->reference) }}">
                 </div>
                 <!-- Supplier -->
                 <div>
-                    <label class="block text-sm font-semibold">Supplier *</label>
+                    <label class="block text-sm font-semibold dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.supplier') }} *</label>
                     <select name="supplier_id" id="supplier_id" class="form-select mt-1 block w-full" required>
                         @foreach($suppliers as $supplier)
                             <option value="{{ $supplier->id }}"
@@ -62,21 +62,21 @@
                 </div>
                 <!-- Status -->
                 <div>
-                    <label class="block text-sm font-semibold">Status</label>
+                    <label class="block text-sm font-semibold dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.Status') }}</label>
                     <select name="status" id="status" class="form-select mt-1 block w-full">
-                        <option value="Received" 
+                        <option value="Received"
                             {{ old('status', $purchase->status) == 'Received' ? 'selected' : '' }}>
-                            Received
+                            {{ __('text.received') }}
                         </option>
-                        <option value="Pending" 
+                        <option value="Pending"
                             {{ old('status', $purchase->status) == 'pending' ? 'selected' : '' }}>
-                            Pending
+                            {{ __('text.pending') }}
                         </option>
                     </select>
                 </div>
                 <!-- Payment Method -->
                 <div>
-                    <label class="block text-sm font-semibold">Payment Method</label>
+                    <label class="block text-sm font-semibold dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.payment_method') }}</label>
                     <select name="payment_method_id" id="payment_method_id" class="form-select mt-1 block w-full">
                         @foreach($paymentMethods as $paymentMethod)
                             <option value="{{ $paymentMethod->id }}"
@@ -87,14 +87,14 @@
                     </select>
                 </div>
                 <!-- Details -->
-                <div >
-                    <label class="block text-sm font-semibold">Details</label>
+                <div>
+                    <label class="block text-sm font-semibold dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.details') }}</label>
                     <textarea name="details" id="details" class="form-input mt-1 block w-full" rows="3"
-                              placeholder="Additional details...">{{ old('details', $purchase->details) }}</textarea>
+                              placeholder="{{ __('text.additional_details') }}">{{ old('details', $purchase->details) }}</textarea>
                 </div>
             </div>
         </div>
-        
+
         <div class="bg-white dark:bg-[#1b2e4b] rounded shadow p-6 mb-6">
     <div class="relative">
         <!-- Search input wrapper with icon on the right -->
@@ -103,7 +103,7 @@
                 type="text"
                 id="search-input"
                 class="form-input w-full pr-10"
-                placeholder="Search Product Name or Barcode"
+                placeholder="{{ __('text.search_placeholder') }}"
             >
             <span class="absolute inset-y-0 right-0 flex items-center pr-3">
                 <!-- Magnifying glass icon -->
@@ -128,23 +128,23 @@
 </div>
         <!-- Purchase Items Container -->
         <div class="bg-white rounded shadow p-6 dark:bg-[#1b2e4b]">
-            <h3 class="text-xl font-semibold mb-4 dark:text-white">Purchase Items</h3>
+            <h3 class="text-xl font-semibold mb-4 dark:text-white dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.purchase_items') }}</h3>
 
             <!-- Search Input and Suggestions Dropdown -->
-            
+
 
             <!-- Purchase Items Table -->
             <div class="overflow-x-auto mb-4">
                 <table class="w-full whitespace-nowrap shadow-sm table-auto">
                     <thead class="bg-blue-500 text-white">
-                        <tr>
-                            <th class="p-2 text-left">Product Name</th>
-                            <th class="p-2 text-left">Qty</th>
-                            <th class="p-2 text-left">Discount</th>
-                            <th class="p-2 text-left">Units</th>
-                            <th class="p-2 text-left">Cost</th>
-                            <th class="p-2 text-left">Subtotal</th>
-                            <th class="p-2 text-left">Remove</th>
+                        <tr class="dongrek-font">
+                            <th class="p-2 text-left {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.product_name') }}</th>
+                            <th class="p-2 text-left {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.qty') }}</th>
+                            <th class="p-2 text-left {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.discount') }}</th>
+                            <th class="p-2 text-left {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.units') }}</th>
+                            <th class="p-2 text-left {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.cost') }}</th>
+                            <th class="p-2 text-left {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.subtotal') }}</th>
+                            <th class="p-2 text-left {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.remove') }}</th>
                         </tr>
                     </thead>
                     <tbody id="product-list">
@@ -152,8 +152,8 @@
                         <tr class="border-b">
                             <td class="p-2">
                                 {{ $item->product->name_en }} ({{ $item->product->barcode }})
-                                <input type="hidden" 
-                                       name="items[{{ $item->product_id }}][product_id]" 
+                                <input type="hidden"
+                                       name="items[{{ $item->product_id }}][product_id]"
                                        value="{{ $item->product_id }}">
                             </td>
                             <td class="p-2">
@@ -162,7 +162,7 @@
                                        name="items[{{ $item->product_id }}][quantity]"
                                        value="{{ $item->quantity }}"
                                        required>
-                            </td>
+                            </td
                             <td class="p-2">
                                 <input type="number"
                                        class="form-input w-16 discount"
@@ -195,7 +195,7 @@
                             </td>
                             <td class="p-2 text-center">
                                 <button type="button" class="remove-btn text-red-500">
-                                    <img src="{{ asset('icons/delete.png') }}" alt="Remove" class="w-6 h-6">
+                                    <img src="{{ asset('icons/delete.png') }}" alt="{{ __('text.remove') }}" class="w-6 h-6">
                                 </button>
                             </td>
                         </tr>
@@ -206,25 +206,25 @@
                 <!-- Subtotal, Discount, and Grand Total (below table) -->
                 <div class="mt-4 space-y-1 text-right">
                     <div>
-                        <span class="font-semibold mr-2">Subtotal:</span>
+                        <span class="font-semibold mr-2 dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.subtotal') }}:</span>
                         <span id="subtotal-amount">0.00</span>
                     </div>
                     <div>
-                        <span class="font-semibold mr-2">Discount:</span>
+                        <span class="font-semibold mr-2 dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.discount') }}:</span>
                         <span id="discount-amount">0.00</span>
                     </div>
                     <div>
-                        <span class="font-bold mr-2">Grand Total:</span>
+                        <span class="font-bold mr-2 dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.grand_total') }}:</span>
                         <span id="grandtotal-amount">0.00</span>
                     </div>
                 </div>
             </div>
 
             <div class="flex justify-end space-x-3">
-                <button type="submit" class="btn-green px-6 py-2 rounded">Update Purchase</button>
+                <button type="submit" class="btn-green px-6 py-2 rounded dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">{{ __('text.update_purchase') }}</button>
                 <a href="{{ route('purchases.index') }}"
-       class="btn-red px-6 py-2 rounded">
-       Cancel
+       class="btn-red px-6 py-2 rounded dongrek-font {{ app()->getLocale() == 'en' ? 'font-en' : 'font-kh' }}">
+       {{ __('text.cancel') }}
     </a>
             </div>
         </div>
@@ -272,8 +272,8 @@
 
         // Use innerHTML to style only the barcode
         suggestionItem.innerHTML = `
-            ${product.name_en} - 
-            ${product.name_kh} - 
+            ${product.name_en} -
+            ${product.name_kh} -
            <span style="color: orange;">${product.barcode}</span>
         `;
 
@@ -321,7 +321,7 @@
                 <td class="p-2 subtotal">0.00</td>
                 <td class="p-2 text-center">
                     <button type="button" class="remove-btn text-red-500">
-                        <img src="{{ asset('icons/delete.png') }}" alt="Remove" class="w-6 h-6">
+                        <img src="{{ asset('icons/delete.png') }}" alt="{{ __('text.remove') }}" class="w-6 h-6">
                     </button>
                 </td>
             </tr>
@@ -431,7 +431,7 @@
     th, td {
         text-align: left;
         padding: 10px;
-       
+
     }
     th {
         background-color: #007bff;
@@ -454,6 +454,17 @@
     #suggestions {
         max-height: 200px;
         overflow-y: auto;
+    }
+
+    /* Import Dongrek font from Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Dangrek&display=swap');
+
+    .dongrek-font {
+        font-family: 'Dangrek', 'Arial', sans-serif;
+        letter-spacing: 0.01em;
+        font-feature-settings: "kern" 1;
+        text-rendering: optimizeLegibility;
+        font-weight: 500;
     }
 </style>
 @endsection

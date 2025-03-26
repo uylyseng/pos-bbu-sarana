@@ -1,18 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Dangrek&display=swap');
+
+    .font-dangrek {
+        font-family: 'Dangrek', cursive !important;
+    }
+
+    /* Make Khmer text slightly larger for better readability */
+    .khmer-text {
+        font-size: 1.05em;
+        line-height: 1.6;
+    }
+</style>
+
 <div class="container mx-auto px-4 py-6">
     <!-- Breadcrumb Navigation -->
     <nav aria-label="breadcrumb" class="mb-4 flex justify-start">
         <ol class="flex text-gray-500 font-semibold dark:text-white">
             <li>
-                <a href="{{ route('home') }}" class="hover:text-gray-500/70 dark:hover:text-gray-300">
-                    {{ __("Home") }}
+                <a href="{{ route('home') }}" class="hover:text-gray-500/70 dark:hover:text-gray-300 {{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">
+                    {{ __('expense_types.home') }}
                 </a>
             </li>
             <li class="before:content-[''] before:block before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
-                <a href="javascript:;" class="text-primary">
-                    {{ __("Expense Types") }}
+                <a href="javascript:;" class="text-primary {{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">
+                    {{ __('expense_types.expense_types') }}
                 </a>
             </li>
         </ol>
@@ -39,10 +53,10 @@
 
     <!-- Add New Expense Type Button -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-        <h2 class="text-xl font-semibold mb-2 sm:mb-0 dark:text-white">Expense Types List</h2>
+        <h2 class="text-xl font-semibold mb-2 sm:mb-0 dark:text-white {{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">{{ __('expense_types.expense_types_list') }}</h2>
         <button class="btn-green flex items-center" onclick="openCreateModal()">
             <i class="fas fa-plus-circle mr-2" style="color: white;"></i>
-            <span class="font-semibold text-white">Add New</span>
+            <span class="font-semibold text-white {{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">{{ __('expense_types.add_new') }}</span>
         </button>
     </div>
 
@@ -51,10 +65,10 @@
         <table class="w-full whitespace-nowrap shadow-sm">
             <thead class="bg-gray-100 dark:bg-[#1b2e4b]" style="color: blue;">
                 <tr>
-                    <th class="px-4 py-2">ID</th>
-                    <th class="px-4 py-2">Expense Type Name</th>
-                    <th class="px-4 py-2">Description</th>
-                    <th class="px-4 py-2 text-center">Actions</th>
+                    <th class="px-4 py-2 {{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">{{ __('expense_types.id') }}</th>
+                    <th class="px-4 py-2 {{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">{{ __('expense_types.expense_type_name') }}</th>
+                    <th class="px-4 py-2 {{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">{{ __('expense_types.description') }}</th>
+                    <th class="px-4 py-2 text-center {{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">{{ __('expense_types.actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,10 +79,12 @@
                     <td class="px-4 py-2 dark:text-white">{{ $expenseType->description }}</td>
                     <td class="px-4 py-2 text-center">
                         <button type="button" onclick="openEditModal({{ json_encode($expenseType) }})" class="inline-flex items-center px-3 py-1 mr-2 border border-blue-500 text-blue-500 rounded hover:text-blue-700 hover:border-blue-700">
-                            <i class="fa-solid fa-pen-to-square mr-1" style="color: blue;"></i> Edit
+                            <i class="fa-solid fa-pen-to-square mr-1" style="color: blue;"></i>
+                            <span class="{{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">{{ __('expense_types.edit') }}</span>
                         </button>
                         <button type="button" onclick="confirmDelete('{{ route('expense_types.destroy', $expenseType->id) }}')" class="inline-flex items-center px-3 py-1 border border-red-500 text-red-500 rounded hover:text-red-700 hover:border-red-700">
-                            <i class="fa-solid fa-trash mr-1" style="color: red;"></i> Delete
+                            <i class="fa-solid fa-trash mr-1" style="color: red;"></i>
+                            <span class="{{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">{{ __('expense_types.delete') }}</span>
                         </button>
                     </td>
                 </tr>
@@ -78,37 +94,37 @@
     </div>
 
     <!-- Pagination -->
-    <div >
+    <div>
         {{ $expenseTypes->links('layouts.pagination') }}
     </div>
 </div>
 
 <!-- Modal Backdrop -->
-<div id="modalBackdrop"   class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden
+<div id="modalBackdrop" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden
 flex items-start justify-center transition-opacity duration-300">
     <!-- Create/Edit Expense Type Modal -->
-    <div id="expenseTypeModal"  class="relative mt-10 w-full max-w-md bg-white dark:bg-gray-800
+    <div id="expenseTypeModal" class="relative mt-10 w-full max-w-md bg-white dark:bg-gray-800
            rounded-lg p-6 shadow-lg
            transform transition-all duration-300 ease-out
            opacity-0 -translate-y-12">
-        <h2 id="modalTitle" class="text-lg font-semibold mb-3 dark:text-white">Create New Expense Type</h2>
+        <h2 id="modalTitle" class="text-lg font-semibold mb-3 dark:text-white {{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">{{ __('expense_types.create_new_expense_type') }}</h2>
         <form id="expenseTypeForm" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="_method" id="formMethod" value="POST">
             <!-- Expense Type Name Field -->
             <div class="mb-3">
-                <label class="block text-sm font-medium mb-1 dark:text-white">Expense Type Name</label>
-                <input type="text" name="name" id="expenseTypeName" class="form-input w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white" required>
+                <label class="block text-sm font-medium mb-1 dark:text-white {{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">{{ __('expense_types.expense_type_name') }}</label>
+                <input type="text" name="name" id="expenseTypeName" class="form-input w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white {{ app()->getLocale() === 'km' ? 'khmer-text' : '' }}" required>
             </div>
             <!-- Description Field -->
             <div class="mb-3">
-                <label class="block text-sm font-medium mb-1 dark:text-white">Description</label>
-                <textarea name="description" id="expenseTypeDescription" class="form-input w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white"></textarea>
+                <label class="block text-sm font-medium mb-1 dark:text-white {{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">{{ __('expense_types.description') }}</label>
+                <textarea name="description" id="expenseTypeDescription" class="form-input w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white {{ app()->getLocale() === 'km' ? 'khmer-text' : '' }}"></textarea>
             </div>
             <!-- Action Buttons -->
             <div class="flex justify-end space-x-2 mt-4">
-                <button type="button" onclick="closeModal()" class="btn-gray">Cancel</button>
-                <button type="submit" class="btn-green" id="saveButton">Save</button>
+                <button type="button" onclick="closeModal()" class="btn-gray {{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}">{{ __('expense_types.cancel') }}</button>
+                <button type="submit" class="btn-green {{ app()->getLocale() === 'km' ? 'font-dangrek khmer-text' : '' }}" id="saveButton">{{ __('expense_types.save') }}</button>
             </div>
         </form>
     </div>
@@ -120,24 +136,24 @@ flex items-start justify-center transition-opacity duration-300">
         document.getElementById('modalBackdrop').classList.remove('hidden');
         const modal = document.getElementById('expenseTypeModal');
         modal.classList.remove('opacity-0', 'translate-y-[-30px]', 'scale-95');
-        document.getElementById('modalTitle').innerText = 'Create New Expense Type';
+        document.getElementById('modalTitle').innerText = '{{ __("expense_types.create_new_expense_type") }}';
         document.getElementById('expenseTypeForm').action = "{{ route('expense_types.store') }}";
         document.getElementById('formMethod').value = "POST";
         document.getElementById('expenseTypeName').value = '';
         document.getElementById('expenseTypeDescription').value = '';
-        document.getElementById('saveButton').innerText = 'Save';
+        document.getElementById('saveButton').innerText = '{{ __("expense_types.save") }}';
     }
 
     function openEditModal(expenseType) {
         document.getElementById('modalBackdrop').classList.remove('hidden');
         const modal = document.getElementById('expenseTypeModal');
         modal.classList.remove('opacity-0', 'translate-y-[-30px]', 'scale-95');
-        document.getElementById('modalTitle').innerText = 'Edit Expense Type';
+        document.getElementById('modalTitle').innerText = '{{ __("expense_types.edit_expense_type") }}';
         document.getElementById('expenseTypeForm').action = `/expense_types/${expenseType.id}`;
         document.getElementById('formMethod').value = "PUT";
         document.getElementById('expenseTypeName').value = expenseType.name;
         document.getElementById('expenseTypeDescription').value = expenseType.description;
-        document.getElementById('saveButton').innerText = 'Update';
+        document.getElementById('saveButton').innerText = '{{ __("expense_types.update") }}';
     }
 
     function closeModal() {
@@ -145,6 +161,54 @@ flex items-start justify-center transition-opacity duration-300">
         setTimeout(() => {
             document.getElementById('modalBackdrop').classList.add('hidden');
         }, 300);
+    }
+
+    function confirmDelete(deleteUrl) {
+        const isKhmer = '{{ app()->getLocale() }}' === 'km';
+        const swalConfig = {
+            title: '{{ __("expense_types.are_you_sure") }}',
+            text: '{{ __("expense_types.this_action_cannot_be_undone") }}',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '{{ __("expense_types.yes_delete_it") }}',
+            cancelButtonText: '{{ __("expense_types.cancel") }}',
+            reverseButtons: true,
+        };
+
+        // Add custom class for Khmer text
+        if (isKhmer) {
+            swalConfig.customClass = {
+                title: 'font-dangrek khmer-text',
+                htmlContainer: 'font-dangrek khmer-text',
+                confirmButton: 'font-dangrek khmer-text',
+                cancelButton: 'font-dangrek khmer-text',
+            };
+        }
+
+        window.Swal.fire(swalConfig).then((result) => {
+            if (result.isConfirmed) {
+                // Create a form dynamically
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = deleteUrl;
+                form.style.display = 'none';
+
+                const csrfToken = document.createElement('input');
+                csrfToken.type = 'hidden';
+                csrfToken.name = '_token';
+                csrfToken.value = '{{ csrf_token() }}';
+
+                const methodField = document.createElement('input');
+                methodField.type = 'hidden';
+                methodField.name = '_method';
+                methodField.value = 'DELETE';
+
+                form.appendChild(csrfToken);
+                form.appendChild(methodField);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
     }
 </script>
 

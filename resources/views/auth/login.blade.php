@@ -45,6 +45,40 @@
 </script>
 @endif
 
+<style>
+    /* Import Dongrek font from Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Dangrek&display=swap');
+
+    .dongrek-font {
+        font-family: 'Dangrek', 'Arial', sans-serif;
+        letter-spacing: 0.01em;
+        font-feature-settings: "kern" 1;
+        text-rendering: optimizeLegibility;
+        font-weight: 500;
+    }
+
+    /* Apply Dangrek font to input fields and make text white */
+    input {
+        font-family: 'Dangrek', 'Arial', sans-serif;
+    }
+
+    label {
+        color: white !important;
+    }
+
+    .text-gray-700 {
+        color: white !important;
+    }
+
+    .h1\text-gray-900 {
+        color: white !important;
+    }
+
+    .dark\:text-gray-300 {
+        color: white !important;
+    }
+</style>
+
 <div class="main-container relative min-h-screen flex items-center justify-center overflow-hidden w-full h-screen">
     <div x-data="auth" class="w-full h-full flex items-center justify-center">
         <!-- Background overlay -->
@@ -55,27 +89,31 @@
         <div class="relative w-full max-w-md rounded-lg bg-white/80 dark:bg-black/50 p-6 md:p-10 shadow-lg backdrop-blur-lg flex items-center justify-center">
             <div class="w-full">
                 <div class="text-center mb-6">
-                    <h1 class="text-3xl font-extrabold uppercase text-primary md:text-4xl">Sign In</h1>
-                    <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">Enter your email and password to login</p>
+                    <h1 class="text-3xl font-extrabold uppercase text-green-600 md:text-4xl dongrek-font">{{ __('login_'.app()->getLocale().'.login') }}</h1>
+                    <p class="mt-2 text-sm text-white dongrek-font">{{ __('login_'.app()->getLocale().'.enter_credentials') }}</p>
                 </div>
 
                 <form method="POST" action="{{ route('login') }}" class="space-y-5">
                     @csrf
-                    <div>
-                        <label for="Email" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-                        <input id="Email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Enter Email" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:border-primary focus:ring focus:ring-primary focus:outline-none dark:bg-gray-800 dark:border-gray-600 dark:text-white">
+                    <div class="flex flex-row items-center gap-4">
+                        <label for="Email" class="w-1/3 text-sm font-medium dongrek-font">{{ __('login_'.app()->getLocale().'.email_address') }}</label>
+                        <input id="Email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="{{ __('login_'.app()->getLocale().'.enter_email') }}"
+                            class="w-2/3 px-4 py-2 rounded-md border border-gray-300 focus:border-green-600 focus:ring focus:ring-green-600 focus:outline-none dark:bg-gray-800 dark:border-gray-600 dark:text-white dongrek-font">
                     </div>
-                    <div>
-                        <label for="Password" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
-                        <input id="Password" type="password" name="password" required autocomplete="current-password" placeholder="Enter Password" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:border-primary focus:ring focus:ring-primary focus:outline-none dark:bg-gray-800 dark:border-gray-600 dark:text-white">
+                    <div class="flex flex-row items-center gap-4">
+                        <label for="Password" class="w-1/3 text-sm font-medium dongrek-font">{{ __('login_'.app()->getLocale().'.password') }}</label>
+                        <input id="Password" type="password" name="password" required autocomplete="current-password" placeholder="{{ __('login_'.app()->getLocale().'.enter_password') }}"
+                            class="w-2/3 px-4 py-2 rounded-md border border-gray-300 focus:border-green-600 focus:ring focus:ring-green-600 focus:outline-none dark:bg-gray-800 dark:border-gray-600 dark:text-white dongrek-font">
                     </div>
-                    <div class="flex items-center">
-                        <input type="checkbox" id="remember" class="form-checkbox h-4 w-4 text-primary dark:bg-gray-800" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                        <label for="remember" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Remember Password</label>
+                    <div class="flex items-center ml-[33%]">
+                        <input type="checkbox" id="remember" class="form-checkbox h-4 w-4 text-green-600 dark:bg-gray-800" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                        <label for="remember" class="ml-2 text-sm dongrek-font">{{ __('login_'.app()->getLocale().'.remember_me') }}</label>
                     </div>
-                    <button type="submit" class="w-full py-2 px-4 bg-primary text-white rounded-md shadow-lg uppercase hover:bg-primary-dark">Sign In</button>
+                    <button type="submit" class="w-full py-2 px-4 bg-green-600 text-white rounded-md shadow-lg uppercase hover:bg-green-700 dongrek-font">{{ __('login_'.app()->getLocale().'.login') }}</button>
                     @if (Route::has('password.request'))
-
+                    <div class="text-center">
+                        <a href="{{ route('password.request') }}" class="text-sm text-green-600 hover:underline dongrek-font">{{ __('login_'.app()->getLocale().'.forgot_password') }}</a>
+                    </div>
                     @endif
                 </form>
             </div>
